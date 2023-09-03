@@ -20,6 +20,7 @@ func Run(cfg *akademy.Config) error {
 		LayoutLocation: "templates/layouts",
 		LayoutPattern:  "*.layout.html",
 		FuncMap:        wys.BasicFunctions,
+		InProduction:   true,
 	}
 	viewMgr, err := wys.New(&vCfg)
 	if err != nil {
