@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/alexedwards/scs/v2"
@@ -8,9 +9,13 @@ import (
 )
 
 type PageHandler interface {
+	// Renders pages
 	ShowIndexPage(w http.ResponseWriter, r *http.Request)
 	ShowAboutPage(w http.ResponseWriter, r *http.Request)
 	ShowLoginPage(w http.ResponseWriter, r *http.Request)
+
+	// Handles requests from the browser
+	HandleLogin(w http.ResponseWriter, r *http.Request)
 }
 
 func NewPageHandler(v wys.ViewManager, sess *scs.SessionManager, svc interface{}) PageHandler {
@@ -24,6 +29,15 @@ type pageHandler struct {
 	// Cfg     *akademy.Config
 	SessMgr *scs.SessionManager
 	ViewMgr wys.ViewManager
+}
+
+// HandleLogin implements PageHandler.
+func (h pageHandler) HandleLogin(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Handle Login")
+	r.ParseForm()
+	email := r.FormValue("emailAddress")
+	fmt.Println("Email", email)
+	w.Write([]byte(email))
 }
 
 // ShowLoginPage implements PageHandler.

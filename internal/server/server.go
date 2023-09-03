@@ -44,6 +44,9 @@ func Run(cfg *akademy.Config) error {
 	router.Use(n.NoSurfMW)
 	router.Use(session.LoadAndSave)
 
+	staticFileServer := http.FileServer(http.FS(akademy.FS))
+	router.PathPrefix("/static/").Handler(staticFileServer)
+
 	hdlrs := handler.NewPageHandler(viewMgr, session, nil)
 	setupRoutes(router, hdlrs)
 	addr := fmt.Sprintf(":%d", cfg.Port)
@@ -55,4 +58,5 @@ func setupRoutes(r *mux.Router, h handler.PageHandler) {
 	r.Path("/").Methods(http.MethodGet).HandlerFunc(h.ShowIndexPage)
 	r.Path("/about").Methods(http.MethodGet).HandlerFunc(h.ShowAboutPage)
 	r.Path("/login").Methods(http.MethodGet).HandlerFunc(h.ShowLoginPage)
+	r.Path("/login").Methods(http.MethodPost).HandlerFunc(h.HandleLogin)
 }

@@ -9,7 +9,8 @@ import (
 
 func main() {
 	cfg := akademy.Config{
-		Port: 8080,
+		Port:         8080,
+		InProduction: false,
 	}
 	err := server.Run(&cfg)
 	if err != nil {
