@@ -15,9 +15,9 @@ import (
 func Run(cfg *akademy.Config) error {
 	vCfg := wys.Config{
 		FS:             akademy.FS,
-		PageLocation:   "templates",
+		PageLocation:   "templates/pages",
 		PagePattern:    "*.page.html",
-		LayoutLocation: "templates",
+		LayoutLocation: "templates/layouts",
 		LayoutPattern:  "*.layout.html",
 		FuncMap:        wys.BasicFunctions,
 	}
