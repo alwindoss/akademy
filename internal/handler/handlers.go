@@ -10,6 +10,7 @@ import (
 type PageHandler interface {
 	ShowIndexPage(w http.ResponseWriter, r *http.Request)
 	ShowAboutPage(w http.ResponseWriter, r *http.Request)
+	ShowLoginPage(w http.ResponseWriter, r *http.Request)
 }
 
 func NewPageHandler(cfg *akademy.Config, sess *scs.SessionManager, svc interface{}) PageHandler {
@@ -22,6 +23,14 @@ func NewPageHandler(cfg *akademy.Config, sess *scs.SessionManager, svc interface
 type pageHandler struct {
 	Cfg     *akademy.Config
 	SessMgr *scs.SessionManager
+}
+
+// ShowLoginPage implements PageHandler.
+func (h pageHandler) ShowLoginPage(w http.ResponseWriter, r *http.Request) {
+	d := &TemplateData{
+		Title: "Akademy | Login",
+	}
+	renderTemplate(w, r, h.Cfg, "login.page.html", d)
 }
 
 // ShowAboutPage implements PageHandler.

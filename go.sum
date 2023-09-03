@@ -1,5 +1,7 @@
 github.com/alexedwards/scs/v2 v2.5.1 h1:EhAz3Kb3OSQzD8T+Ub23fKsiuvE0GzbF5Lgn0uTwM3Y=
 github.com/alexedwards/scs/v2 v2.5.1/go.mod h1:ToaROZxyKukJKT/xLcVQAChi5k6+Pn1Gvmdl7h3RRj8=
+github.com/alwindoss/wys v0.0.1-1693742158 h1:QJ3R2FWFmtuDHFyeX1LMdeRidCZfaW5C/wew3GQ7k64=
+github.com/alwindoss/wys v0.0.1-1693742158/go.mod h1:DpZTPQ1uazq3dUAo4T5GloenwtW1mei6pyk16FXF+ac=
 github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
 github.com/justinas/nosurf v1.1.1 h1:92Aw44hjSK4MxJeMSyDa7jwuI9GR2J/JCQiaKvXXSlk=

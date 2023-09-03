@@ -37,13 +37,7 @@ type TemplateData struct {
 	// Form            *forms.Form
 }
 
-func renderTemplate(
-	w http.ResponseWriter,
-	r *http.Request,
-	cfg *akademy.Config,
-	tmpl string,
-	data *TemplateData,
-) {
+func renderTemplate(w http.ResponseWriter, r *http.Request, cfg *akademy.Config, tmpl string, data *TemplateData) {
 	data = AddDefaultData(r, data)
 	t, ok := cfg.TemplateCache[tmpl]
 	if !ok {
