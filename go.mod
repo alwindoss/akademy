@@ -8,4 +8,4 @@ require (
 	github.com/justinas/nosurf v1.1.1
 )
 
-require github.com/alwindoss/wys v0.0.1-1693742158 // indirect
+require github.com/alwindoss/wys v0.0.1-1693742158
