@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/alwindoss/wys"
+	"github.com/alwindoss/akademy/wys"
 )
 
 type PageHandler interface {

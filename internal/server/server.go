@@ -8,7 +8,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/alwindoss/akademy"
 	"github.com/alwindoss/akademy/internal/handler"
-	"github.com/alwindoss/wys"
+	"github.com/alwindoss/akademy/wys"
 	"github.com/gorilla/mux"
 )
 
