@@ -10,8 +10,6 @@ type Config struct {
 	Location      string
 	DBName        string
 	InProduction  bool
+	FS            embed.FS
 	TemplateCache map[string]*template.Template
 }
-
-//go:embed templates static
-var FS embed.FS

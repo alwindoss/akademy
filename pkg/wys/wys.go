@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"html/template"
 	"io/fs"
+	"log"
 	"net/http"
 	"path/filepath"
 
@@ -14,15 +15,18 @@ import (
 )
 
 type Config struct {
-	FS             embed.FS
-	PageLocation   string
-	PagePattern    string
-	LayoutLocation string
-	LayoutPattern  string
-	FuncMap        template.FuncMap
-	pagesPath      string
-	layoutsPath    string
-	InProduction   bool
+	FS              embed.FS
+	PageLocation    string
+	PagePattern     string
+	LayoutLocation  string
+	LayoutPattern   string
+	PartialLocation string
+	PartialPattern  string
+	FuncMap         template.FuncMap
+	pagesPath       string
+	layoutsPath     string
+	partialsPath    string
+	InProduction    bool
 }
 
 type TemplateData struct {
@@ -73,6 +77,7 @@ func (m *viewManager) Render(w http.ResponseWriter, r *http.Request, tmpl string
 	buff := new(bytes.Buffer)
 	err = t.Execute(buff, data)
 	if err != nil {
+		log.Printf("Error: %v", err)
 		err = fmt.Errorf("error when executing template: %w", err)
 		return err
 	}
@@ -93,9 +98,11 @@ func New(cfg *Config) (ViewManager, error) {
 	// Not using filepath.Join because embed.FS does not work with windows path (ex: "\")
 	pagesPath := cfg.PageLocation + "/" + cfg.PagePattern
 	layoutsPath := cfg.LayoutLocation + "/" + cfg.LayoutPattern
+	partialsPath := cfg.PartialLocation + "/" + cfg.PartialPattern
 
 	cfg.layoutsPath = layoutsPath
 	cfg.pagesPath = pagesPath
+	cfg.partialsPath = partialsPath
 	var cache map[string]*template.Template
 	var err error
 	if cfg.InProduction {
@@ -129,15 +136,15 @@ func cacheTemplatesForProduction(cfg *Config) (map[string]*template.Template, er
 			err = fmt.Errorf("unable to ParseFiles: %w", err)
 			return nil, err
 		}
-		matches, err := fs.Glob(cfg.FS, cfg.layoutsPath)
+		layoutMatches, err := fs.Glob(cfg.FS, cfg.layoutsPath)
 		if err != nil {
-			err = fmt.Errorf("unable to fs.Glob: %w", err)
+			err = fmt.Errorf("unable to fs.Glob for layouts: %w", err)
 			return nil, err
 		}
-		if len(matches) > 0 {
+		if len(layoutMatches) > 0 {
 			ts, err = ts.ParseFS(cfg.FS, cfg.layoutsPath)
 			if err != nil {
-				err = fmt.Errorf("unable to ParseGlob: %w", err)
+				err = fmt.Errorf("unable to ParseGlob for layouts: %w", err)
 				return nil, err
 			}
 		}
@@ -161,13 +168,13 @@ func cacheTemplatesForDevelopment(cfg *Config) (map[string]*template.Template, e
 			err = fmt.Errorf("unable to ParseFiles: %w", err)
 			return nil, err
 		}
-		matches, err := filepath.Glob(cfg.layoutsPath)
+		layoutMatches, err := filepath.Glob(cfg.layoutsPath)
 		// matches, err := fs.Glob(cfg.FS, cfg.layoutsPath)
 		if err != nil {
 			err = fmt.Errorf("unable to fs.Glob: %w", err)
 			return nil, err
 		}
-		if len(matches) > 0 {
+		if len(layoutMatches) > 0 {
 			ts, err = ts.ParseGlob(cfg.layoutsPath)
 			if err != nil {
 				err = fmt.Errorf("unable to ParseGlob: %w", err)

@@ -21,13 +21,13 @@ setup:
 	$(GOGET) -v ./...
 build:
 ifeq ($(OS),Windows_NT)
-	$(GOBUILD) -o ./$(BINARY_LOC)/$(BINARY_NAME).exe -v ./cmd/$(BINARY_NAME)/...
+	$(GOBUILD) -o ./$(BINARY_LOC)/ -v ./cmd/$(BINARY_NAME)/...
 else
-	$(GOBUILD) -o ./$(BINARY_LOC)/$(BINARY_NAME) -v ./cmd/$(BINARY_NAME)/...
-endif 
-test: 
+	$(GOBUILD) -o ./$(BINARY_LOC)/ -v ./cmd/$(BINARY_NAME)/...
+endif
+test:
 	$(GOTEST) -v ./...
-clean: 
+clean:
 	$(GOCLEAN)
 	rm -rf $(BINARY_LOC)
 run: clean build
@@ -35,4 +35,4 @@ ifeq ($(OS),Windows_NT)
 	./$(BINARY_LOC)/$(BINARY_NAME).exe
 else
 	./$(BINARY_LOC)/$(BINARY_NAME)
-endif 
+endif
